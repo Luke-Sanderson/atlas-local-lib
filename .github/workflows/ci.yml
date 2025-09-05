@@ -120,7 +120,7 @@ jobs:
       run: cargo build --verbose
     
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --verbose --lib -- --skip "e2e_test"
 
   # Minimum supported Rust version check
   msrv:
@@ -146,3 +146,30 @@ jobs:
     
     - name: Check MSRV build
       run: cargo check --verbose
+
+
+  e2e-tests:
+      runs-on: ubuntu-latest
+      services:
+        docker:
+          image: docker:dind
+          options: --privileged
+          ports:
+            - 2375:2375
+      container:
+        image: ubuntu:latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+  
+        - name: Install Docker
+          run: |
+            apt-get update
+            apt-get install -y docker.io
+  
+        - name: Setup Rust
+          uses: actions-rs/toolchain@v1
+          with:
+            toolchain: stable
+        - name: Run E2E Tests
+          run: cargo test --verbose --tests
