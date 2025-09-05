@@ -4,7 +4,8 @@ on:
   pull_request:
   push:
     branches: [ main ]
-
+  workflow_dispatch:
+  
 env:
   CARGO_TERM_COLOR: always
   CARGO_DENY_VERSION: 0.18.4
