@@ -141,11 +141,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl gcc
+      - name: Install Docker (macOS)
+        if: runner.os == 'macOS'
+        run: brew install --cask docker
       
       - name: Install Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
