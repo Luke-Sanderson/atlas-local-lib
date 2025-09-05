@@ -62,9 +62,6 @@ jobs:
     - name: Build
       run: cargo build --verbose
     
-    - name: Run tests
-      run: cargo test --verbose
-    
     - name: Run cargo deny
       run: cargo deny check
     
@@ -73,6 +70,13 @@ jobs:
 
   test-matrix:
     runs-on: ${{ matrix.os }}
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged --shm-size=2g
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -85,7 +89,17 @@ jobs:
             rust: beta
     steps:
     - uses: actions/checkout@v4
-    
+
+    - name: Install Docker
+      run: |
+        apt-get update
+        apt-get install -y docker.io
+
+    - name: Test Docker
+      run: |
+        docker version
+        docker info
+
     - name: Install Rust toolchain
       run: |
         rustup update ${{ matrix.rust }}
