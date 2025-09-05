@@ -148,6 +148,7 @@ jobs:
     
         - name: Install Rust toolchain
           run: |
+            apt install rustup
             rustup update stable
             
         - name: Run E2E Tests
