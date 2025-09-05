@@ -133,25 +133,27 @@ jobs:
 
 
   e2e-tests:
-      runs-on: ubuntu-latest
-      services:
-        docker:
-          image: docker:dind
-          options: --privileged
-          ports:
-            - 2375:2375
-      container:
-        image: ubuntu:latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Install dependencies
-          run: |
-            apt-get update
-            apt-get install -y curl gcc
-        - name: Install Rust toolchain
-          uses: actions-rust-lang/setup-rust-toolchain@v1
-            
-        - name: Run E2E Tests
-          run: cargo test --verbose --tests
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl gcc
+      
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Check Docker status
+        run: docker info
+
+      - name: Run E2E Tests
+        run: cargo test --verbose --tests
