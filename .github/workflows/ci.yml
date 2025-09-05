@@ -146,10 +146,9 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v4
     
-        - name: Setup Rust
-          uses: actions-rs/toolchain@v1
-          with:
-            toolchain: stable
+        - name: Install Rust toolchain
+          run: |
+            rustup update stable
             
         - name: Run E2E Tests
           run: cargo test --verbose --tests
