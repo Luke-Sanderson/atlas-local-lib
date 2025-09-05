@@ -152,7 +152,7 @@ jobs:
             apt-get install -y curl
 
         - name: Install Rust toolchain
-        - uses: actions-rust-lang/setup-rust-toolchain@v1
+          uses: actions-rust-lang/setup-rust-toolchain@v1
             
         - name: Run E2E Tests
           run: cargo test --verbose --tests
