@@ -190,7 +190,7 @@ jobs:
       - name: Install Rust toolchain
         run: |
           docker exec runner apt-get update
-          docker exec runner apt-get install -y curl
+          docker exec runner apt-get install -y curl gcc build-essential
           docker exec runner sh -c 'curl https://sh.rustup.rs -sSf | sh -s -- -y'
 
       - name: Run E2E Tests
