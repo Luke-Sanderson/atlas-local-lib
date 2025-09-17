@@ -129,7 +129,6 @@ jobs:
     
     - name: Upload coverage report
       env:
-        COVERALLS_DEBUG: true
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       uses: coverallsapp/github-action@v2.3.6
       with:
@@ -137,6 +136,7 @@ jobs:
         path-to-lcov: unit-tests.lcov
         parallel: true
         flag-name: ${{ matrix.os }}-${{ matrix.rust }}-unit-tests
+        debug: true
 
   # Minimum supported Rust version check
   msrv:
@@ -223,7 +223,6 @@ jobs:
       
       - name: Upload E2E coverage report
         env:
-          COVERALLS_DEBUG: true
           COVERALLS_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         uses: coverallsapp/github-action@v2.3.6
         with:
@@ -231,6 +230,7 @@ jobs:
           path-to-lcov: e2e-tests.lcov
           parallel: true
           flag-name: ubuntu-latest-e2e-tests
+          debug: true
 
   coverage:
     name: Report Coverage
