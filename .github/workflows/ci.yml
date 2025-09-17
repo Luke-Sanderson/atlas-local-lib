@@ -207,10 +207,6 @@ jobs:
             cd /app && \
             cargo llvm-cov --test e2e_test --features e2e-tests --lcov --output-path=e2e-tests.lcov"
 
-      - name: Check coverage file contents
-        run: |
-          docker exec runner sh -c "cd /app && ls -la e2e-tests.lcov && wc -l e2e-tests.lcov && head -20 e2e-tests.lcov"
-
       - name: Copy coverage file from container
         run: |
           docker cp runner:/app/e2e-tests.lcov ./e2e-tests.lcov
@@ -218,12 +214,6 @@ jobs:
       - name: Fix file paths in coverage file
         run: |
           sed -i 's|SF:/app/|SF:|g' e2e-tests.lcov
-          
-      - name: Verify copied coverage file
-        run: |
-          ls -la e2e-tests.lcov
-          wc -l e2e-tests.lcov
-          head -20 e2e-tests.lcov
       
       - name: Upload E2E coverage report
         env:
