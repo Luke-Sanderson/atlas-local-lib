@@ -196,7 +196,7 @@ jobs:
       - name: Run E2E Tests
         run: |
           docker exec runner sh -c "\
-            source \$HOME/.cargo/env && \
+            . \$HOME/.cargo/env && \
             cd /app && \
             cargo test --test '*' --workspace --exclude 'src/*' --verbose --features e2e-tests"
   
