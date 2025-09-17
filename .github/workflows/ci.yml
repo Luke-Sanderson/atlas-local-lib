@@ -204,7 +204,7 @@ jobs:
           docker exec runner sh -c "\
             . \$HOME/.cargo/env && \
             cd /app && \
-            cargo llvm-cov --tests --features e2e-tests --lcov --output-path=e2e-tests.lcov"
+            cargo llvm-cov --test e2e_test --features e2e-tests --lcov --output-path=e2e-tests.lcov"
 
       - name: Check coverage file contents
         run: |
