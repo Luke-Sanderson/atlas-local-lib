@@ -204,11 +204,21 @@ jobs:
           docker exec runner sh -c "\
             . \$HOME/.cargo/env && \
             cd /app && \
-            cargo llvm-cov --test '*' --workspace --exclude 'src/*' --features e2e-tests --lcov --output-path=e2e-tests.lcov"
+            cargo llvm-cov --tests --features e2e-tests --lcov --output-path=e2e-tests.lcov"
+
+      - name: Check coverage file contents
+        run: |
+          docker exec runner sh -c "cd /app && ls -la e2e-tests.lcov && wc -l e2e-tests.lcov && head -20 e2e-tests.lcov"
 
       - name: Copy coverage file from container
         run: |
           docker cp runner:/app/e2e-tests.lcov ./e2e-tests.lcov
+          
+      - name: Verify copied coverage file
+        run: |
+          ls -la e2e-tests.lcov
+          wc -l e2e-tests.lcov
+          head -20 e2e-tests.lcov
       
       - name: Upload E2E coverage report
         env:
