@@ -199,7 +199,6 @@ jobs:
             . \$HOME/.cargo/env && \
             cd /app && \
             cargo test --test '*' --workspace --exclude 'src/*' --verbose --features e2e-tests"
-  
   coverage:
     name: Report Coverage
     runs-on: ubuntu-latest
