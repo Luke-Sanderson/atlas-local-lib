@@ -215,6 +215,10 @@ jobs:
         run: |
           docker cp runner:/app/e2e-tests.lcov ./e2e-tests.lcov
           
+      - name: Fix file paths in coverage file
+        run: |
+          sed -i 's|SF:/app/|SF:|g' e2e-tests.lcov
+          
       - name: Verify copied coverage file
         run: |
           ls -la e2e-tests.lcov
